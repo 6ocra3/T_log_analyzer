@@ -1,18 +1,22 @@
 package backend.academy.analyzer.statistic;
 
 import backend.academy.analyzer.log.NginxLog;
+import backend.academy.analyzer.statistic.metrics.BaseMetric;
+import backend.academy.analyzer.statistic.metrics.ResponseCodeMetric;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.List;
 import java.util.Objects;
 import java.util.stream.Stream;
 
 public class StatisticCollector {
 
-    public StatisticCollector() {
-    }
+    List<BaseMetric> metrics;
 
-    ;
+    public StatisticCollector(List<BaseMetric> metrics) {
+        this.metrics = metrics;
+    }
 
     public void collectFromFile(String filePath) {
         Path path = Path.of(filePath);
@@ -33,6 +37,10 @@ public class StatisticCollector {
     }
 
     private void processLog(NginxLog log) {
-        System.out.println(log.statusCode());
+        metrics.forEach(m -> m.processLog(log));
+    }
+
+    public void showStatistic(){
+        metrics.forEach(BaseMetric::showStatistic);
     }
 }
