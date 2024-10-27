@@ -10,10 +10,10 @@ import lombok.Getter;
 public class NginxLog {
     private final String ipAddress;
     private final LocalDateTime dateTime;
-    private final String httpMethod;
+    private final HttpMethod httpMethod;
     private final String requestPath;
     private final String httpVersion;
-    private final int statusCode;
+    private final HttpResponseCode statusCode;
     private final int responseSize;
     private final String referrer;
     private final String userAgent;
@@ -31,10 +31,10 @@ public class NginxLog {
         if (matcher.find()) {
             this.ipAddress = matcher.group(1);
             this.dateTime = LocalDateTime.parse(matcher.group(2), DATE_FORMATTER);
-            this.httpMethod = matcher.group(3);
+            this.httpMethod = HttpMethod.fromString(matcher.group(3));
             this.requestPath = matcher.group(4);
             this.httpVersion = matcher.group(5);
-            this.statusCode = Integer.parseInt(matcher.group(6));
+            this.statusCode = HttpResponseCode.fromInt(Integer.parseInt(matcher.group(6)));
             this.responseSize = Integer.parseInt(matcher.group(7));
             this.referrer = matcher.group(8);
             this.userAgent = matcher.group(9);
