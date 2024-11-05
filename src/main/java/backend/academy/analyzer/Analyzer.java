@@ -18,6 +18,7 @@ public class Analyzer {
     List<FileMetric> fileMetrics = List.of(commonMetric);
 
     public Analyzer(AnalyzerConfig config) {
+        commonMetric.config(config);
         String[] filesForRead = new String[] {"./logs_examples/logs_27-10-24.txt"};
 
         StatisticCollector collector = new StatisticCollector(fileMetrics, logMetrics);
