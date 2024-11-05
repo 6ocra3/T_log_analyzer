@@ -10,7 +10,7 @@ import java.util.Map;
 public class RequestTargetMetric implements LogMetric {
     private static final int TARGET_COUNTS = 5;
     private int totalCount = 0;
-    private Map<String, Integer> targetCounter = new HashMap<>();
+    private final Map<String, Integer> targetCounter = new HashMap<>();
 
 
     @Override
@@ -24,6 +24,7 @@ public class RequestTargetMetric implements LogMetric {
 
     @Override
     public void showStatistic() {
+        System.out.println("Всего запросов: " + totalCount);
         List<Map.Entry<String, Integer>> sortedCounts = new ArrayList<>(targetCounter.entrySet());
         sortedCounts.sort(Map.Entry.comparingByValue(Comparator.reverseOrder()));
         for(int i = 0; i<Math.min(TARGET_COUNTS, sortedCounts.size());i++){
