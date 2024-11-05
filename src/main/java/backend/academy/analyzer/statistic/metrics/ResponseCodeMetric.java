@@ -5,7 +5,7 @@ import backend.academy.analyzer.log.NginxLog;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ResponseCodeMetric extends BaseMetric {
+public class ResponseCodeMetric implements LogMetric {
     Map<HttpResponseCode, Integer> codesCounter = new HashMap<>();
 
     public ResponseCodeMetric(){}

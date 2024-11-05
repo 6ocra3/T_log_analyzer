@@ -2,7 +2,7 @@ package backend.academy.analyzer.statistic.metrics;
 
 import backend.academy.analyzer.log.NginxLog;
 
-public abstract class BaseMetric {
+public interface LogMetric {
     abstract public void processLog(NginxLog log);
     abstract public void showStatistic();
 }
