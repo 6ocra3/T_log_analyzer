@@ -19,32 +19,49 @@ import java.util.List;
 public class Analyzer {
 
     CommonMetric commonMetric = new CommonMetric();
-    List<LogMetric> logMetrics = List.of(new ResponseSizeMetric(), new RequestTargetMetric(),  new ResponseCodeMetric());
+    List<LogMetric> logMetrics = List.of(new ResponseSizeMetric(), new RequestTargetMetric(), new ResponseCodeMetric());
     List<FileMetric> fileMetrics = List.of(commonMetric);
     StatisticCollector collector = new StatisticCollector(fileMetrics, logMetrics);
 
     public Analyzer(AnalyzerConfig config) {
         commonMetric.config(config);
-        String pattern = "**/logs_27-10-24.txt";
-        useLocalFiles(pattern);
+        String pattern = "https://raw.githubusercontent.com/elastic/examples/master/Common%20Data%20Formats/nginx_logs/nginx_logs";
+        if(isUrl(pattern)){
+            useRemoteFiles(pattern);
+        } else{
+            useLocalFiles(pattern);
+        }
         collector.showStatistic();
     }
 
-    private void useLocalFiles(String pattern){
-        List<String> filesForRead = getPathFromPattern(pattern);
+    private void useRemoteFiles(String inputFile){
+        try{
+            collector.collectFromHttp(inputFile);
+        } catch (IOException e){
+            e.printStackTrace();
+        }
+
+    }
+
+    private void useLocalFiles(String inputFile) {
+        List<String> filesForRead = getPathFromPattern(inputFile);
         filesForRead.forEach(collector::collectFromFile);
     }
 
     private List<String> getPathFromPattern(String pattern) {
         Path cur = Paths.get("").toAbsolutePath();
-        String formatedPattern = "glob:"+pattern;
+        String formatedPattern = "glob:" + pattern;
         List<String> files = new ArrayList<>();
-        try{
+        try {
             files = FilesPatternMatcher.searchWithPattern(cur, formatedPattern);
-        } catch (IOException e){
+        } catch (IOException e) {
             e.printStackTrace();
         }
         return files;
+    }
+
+    private boolean isUrl(String input) {
+        return input.startsWith("http://") || input.startsWith("https://") || input.startsWith("ftp://");
     }
 
 }
