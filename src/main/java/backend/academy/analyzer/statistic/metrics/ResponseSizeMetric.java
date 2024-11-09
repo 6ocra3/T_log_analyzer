@@ -38,6 +38,7 @@ public class ResponseSizeMetric implements LogMetric {
 
     @Override
     public void showStatistic() {
+        System.out.println("Статистика размеров ответа");
         System.out.println("Средний размер ответа: " + getMiddleValue());
         System.out.println("25p размера ответа: " + getPercentileValue(25));
         System.out.println("50p размера ответа: " + getPercentileValue(50));

@@ -22,6 +22,7 @@ public class CommonMetric implements FileMetric {
 
     @Override
     public void showStatistic() {
+        System.out.println("Общая статистика");
         System.out.println("Файлы " + files.toString());
         if(config != null){
             System.out.println("Начальная дата " + config.searchPeriodFrom());

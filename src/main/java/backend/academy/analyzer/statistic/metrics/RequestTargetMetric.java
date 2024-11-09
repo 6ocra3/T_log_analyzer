@@ -24,6 +24,7 @@ public class RequestTargetMetric implements LogMetric {
 
     @Override
     public void showStatistic() {
+        System.out.println("Статистика самых запрашиваемых ресурсов");
         System.out.println("Всего запросов: " + totalCount);
         List<Map.Entry<String, Integer>> sortedCounts = new ArrayList<>(targetCounter.entrySet());
         sortedCounts.sort(Map.Entry.comparingByValue(Comparator.reverseOrder()));

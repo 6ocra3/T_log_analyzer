@@ -20,6 +20,7 @@ public class ResponseCodeMetric implements LogMetric {
 
     @Override
     public void showStatistic() {
+        System.out.println("Статистика кодов ответа");
         List<Map.Entry<HttpResponseCode, Integer>> sortedCountedCodes = new ArrayList<>(codesCounter.entrySet());
         sortedCountedCodes.sort(Map.Entry.comparingByValue(Comparator.reverseOrder()));
         for(Map.Entry<HttpResponseCode, Integer> code : sortedCountedCodes){
