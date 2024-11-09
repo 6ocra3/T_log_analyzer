@@ -1,9 +1,9 @@
 package backend.academy.analyzer.config;
 
-import backend.academy.analyzer.converters.InstantConverter;
+import backend.academy.analyzer.converters.LocalDateTimeConverter;
 import com.beust.jcommander.Parameter;
 import lombok.Getter;
-import java.time.Instant;
+import java.time.LocalDateTime;
 
 @Getter
 public class AnalyzerConfig {
@@ -17,16 +17,16 @@ public class AnalyzerConfig {
     @Parameter(
         names = {"--from"},
         description = "Start of period",
-        converter = InstantConverter.class
+        converter = LocalDateTimeConverter.class
     )
-    private Instant searchPeriodFrom;
+    private LocalDateTime searchPeriodFrom;
 
     @Parameter(
         names = {"--to"},
         description = "Start of period",
-        converter = InstantConverter.class
+        converter = LocalDateTimeConverter.class
     )
-    private Instant searchPeriodTo;
+    private LocalDateTime searchPeriodTo;
 
     @Parameter(
         names = {"--format"},

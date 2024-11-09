@@ -25,6 +25,7 @@ public class Analyzer {
 
     public Analyzer(AnalyzerConfig config) {
         commonMetric.config(config);
+        collector.config(config);
         String pattern = "https://raw.githubusercontent.com/elastic/examples/master/Common%20Data%20Formats/nginx_logs/nginx_logs";
         if(isUrl(pattern)){
             useRemoteFiles(pattern);

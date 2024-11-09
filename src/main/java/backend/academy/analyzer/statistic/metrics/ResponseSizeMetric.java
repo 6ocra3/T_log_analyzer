@@ -12,12 +12,20 @@ public class ResponseSizeMetric implements LogMetric {
     private int getPercentileValue(int percentile) {
         Collections.sort(values);
         int index = (int) Math.ceil((double) percentile / 100 * values.size()) - 1;
+        if(index < 0 || index >= values.size()) return 0;
         return values.get(index);
     }
 
-    private int getMiddleValue() {
-        int sum = 0;
+    private long getMiddleValue() {
+        if(values.isEmpty()){
+            return 0;
+        }
+        long sum = 0;
         for (Integer number : values) {
+            if(number < 0){
+                System.out.println(1);
+                continue;
+            }
             sum += number;
         }
         return sum / values.size();

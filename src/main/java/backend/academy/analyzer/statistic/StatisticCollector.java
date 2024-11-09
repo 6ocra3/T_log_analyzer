@@ -1,8 +1,10 @@
 package backend.academy.analyzer.statistic;
 
+import backend.academy.analyzer.config.AnalyzerConfig;
 import backend.academy.analyzer.log.NginxLog;
 import backend.academy.analyzer.statistic.metrics.FileMetric;
 import backend.academy.analyzer.statistic.metrics.LogMetric;
+import lombok.Setter;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -12,14 +14,17 @@ import java.net.URI;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Stream;
 
 public class StatisticCollector {
 
-    List<LogMetric> logMetrics;
-    List<FileMetric> fileMetrics;
+    private final List<LogMetric> logMetrics;
+    private final List<FileMetric> fileMetrics;
+    @Setter
+    private AnalyzerConfig config;
 
     public StatisticCollector(List<FileMetric> fileMetrics, List<LogMetric> logMetrics) {
         this.logMetrics = logMetrics;
@@ -63,11 +68,17 @@ public class StatisticCollector {
                 }
             })
             .filter(Objects::nonNull)
+            .filter(this::filterByConfigDates)
             .forEach(this::processLog);
     }
 
     private void processLog(NginxLog log) {
         logMetrics.forEach(m -> m.processLog(log));
+    }
+
+    private boolean filterByConfigDates(NginxLog log) {
+        return (config.searchPeriodFrom() == null || log.dateTime().isAfter(config.searchPeriodFrom())
+        && (config.searchPeriodTo() == null || log.dateTime().isBefore(config.searchPeriodTo())));
     }
 
     public void showStatistic() {
