@@ -9,6 +9,8 @@ import backend.academy.analyzer.statistic.metrics.RequestTargetMetric;
 import backend.academy.analyzer.statistic.metrics.ResponseCodeMetric;
 import backend.academy.analyzer.statistic.metrics.ResponseSizeMetric;
 import backend.academy.analyzer.utils.FilesPatternMatcher;
+import backend.academy.analyzer.visualizer.AdocVisualizer;
+import backend.academy.analyzer.visualizer.MDVisualizer;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -22,10 +24,13 @@ public class Analyzer {
     List<LogMetric> logMetrics = List.of(new ResponseSizeMetric(), new RequestTargetMetric(), new ResponseCodeMetric());
     List<FileMetric> fileMetrics = List.of(commonMetric);
     StatisticCollector collector = new StatisticCollector(fileMetrics, logMetrics);
+    AnalyzerConfig config;
 
     public Analyzer(AnalyzerConfig config) {
+        this.config = config;
         commonMetric.config(config);
         collector.config(config);
+        useFormat();
         String pattern = "https://raw.githubusercontent.com/elastic/examples/master/Common%20Data%20Formats/nginx_logs/nginx_logs";
         if(isUrl(pattern)){
             useRemoteFiles(pattern);
@@ -33,6 +38,16 @@ public class Analyzer {
             useLocalFiles(pattern);
         }
         collector.showStatistic();
+    }
+
+    private void useFormat(){
+        switch (config.format()){
+            case "markdown":
+                collector.visualizer(new MDVisualizer());
+                break;
+            default:
+                collector.visualizer(new AdocVisualizer());
+        }
     }
 
     private void useRemoteFiles(String inputFile){

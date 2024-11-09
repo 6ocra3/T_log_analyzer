@@ -1,6 +1,7 @@
 package backend.academy.analyzer.statistic.metrics;
 
 import backend.academy.analyzer.log.NginxLog;
+import backend.academy.analyzer.visualizer.Visualizer;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -23,15 +24,19 @@ public class RequestTargetMetric implements LogMetric {
     }
 
     @Override
-    public void showStatistic() {
-        System.out.println("Статистика самых запрашиваемых ресурсов");
-        System.out.println("Всего запросов: " + totalCount);
+    public String getStatistic(Visualizer visualizer) {
         List<Map.Entry<String, Integer>> sortedCounts = new ArrayList<>(targetCounter.entrySet());
         sortedCounts.sort(Map.Entry.comparingByValue(Comparator.reverseOrder()));
+
+        List<String> headers = List.of("Ресурс", "Количество");
+        List<List<String>> table = new ArrayList<>();
+        table.add(List.of("Всего запросов", String.valueOf(totalCount)));
+
         for(int i = 0; i<Math.min(TARGET_COUNTS, sortedCounts.size());i++){
             Map.Entry<String, Integer> entry = sortedCounts.get(i);
-            System.out.println(entry.getKey() + " " + entry.getValue());
+            table.add(List.of(entry.getKey(), String.valueOf(entry.getValue())));
         }
-        System.out.println();
+
+        return visualizer.showTable(headers, table, "Статистика самых запрашиваемых ресурсов");
     }
 }

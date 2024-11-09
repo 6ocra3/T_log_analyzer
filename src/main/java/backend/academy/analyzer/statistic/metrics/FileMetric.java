@@ -1,8 +1,9 @@
 package backend.academy.analyzer.statistic.metrics;
 
+import backend.academy.analyzer.visualizer.Visualizer;
 import java.nio.file.Path;
 
 public interface FileMetric {
-    abstract public void processFile(Path path);
-    abstract public void showStatistic();
+    void processFile(Path path);
+    String getStatistic(Visualizer visualizer);
 }

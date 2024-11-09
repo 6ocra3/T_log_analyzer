@@ -2,6 +2,8 @@ package backend.academy.analyzer.statistic.metrics;
 
 import backend.academy.analyzer.log.HttpResponseCode;
 import backend.academy.analyzer.log.NginxLog;
+import backend.academy.analyzer.visualizer.Visualizer;
+import com.google.common.collect.Table;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -19,14 +21,18 @@ public class ResponseCodeMetric implements LogMetric {
     }
 
     @Override
-    public void showStatistic() {
-        System.out.println("Статистика кодов ответа");
+    public String getStatistic(Visualizer visualizer) {
         List<Map.Entry<HttpResponseCode, Integer>> sortedCountedCodes = new ArrayList<>(codesCounter.entrySet());
         sortedCountedCodes.sort(Map.Entry.comparingByValue(Comparator.reverseOrder()));
+
+        List<String> headers = List.of("Код", "Расшифровка", "Количество");
+        List<List<String>> table = new ArrayList<>();
+
         for(Map.Entry<HttpResponseCode, Integer> code : sortedCountedCodes){
-            System.out.println(code.getKey().code() + " " + code.getKey().codeName() + " " + code.getValue());
+            table.add(List.of(String.valueOf(code.getKey().code()), code.getKey().codeName(), String.valueOf(code.getValue())));
         }
-        System.out.println();
+
+        return visualizer.showTable(headers, table, "Статистика кодов ответа");
     }
 
 }

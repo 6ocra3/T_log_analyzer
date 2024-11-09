@@ -2,6 +2,7 @@ package backend.academy.analyzer.statistic.metrics;
 
 import backend.academy.analyzer.config.AnalyzerConfig;
 import backend.academy.analyzer.log.NginxLog;
+import backend.academy.analyzer.visualizer.Visualizer;
 import lombok.Getter;
 import lombok.Setter;
 import java.nio.file.Path;
@@ -9,6 +10,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 public class CommonMetric implements FileMetric {
     List<String> files = new ArrayList<>();
@@ -21,15 +24,19 @@ public class CommonMetric implements FileMetric {
     }
 
     @Override
-    public void showStatistic() {
-        System.out.println("Общая статистика");
-        System.out.println("Файлы " + files.toString());
-        if(config != null){
-            System.out.println("Начальная дата " + config.searchPeriodFrom());
-            System.out.println("Конечная дата " + config.searchPeriodTo());
-            System.out.println("Формат " + config.format());
-        }
+    public String getStatistic(Visualizer visualizer) {
+        List<String> headers = List.of("Параметр", "Значения");
+        List<String> col1 = List.of("Файлы","Начальная дата","Конечная дата","Формат");
+        String startDate = config.searchPeriodFrom() == null ? "-" : config.searchPeriodFrom().toString();
+        String endDate = config.searchPeriodTo() == null ? "-" : config.searchPeriodTo().toString();
+        String formatString = config.format() == null ? "-" : config.format();
+        List<String> col2 = new ArrayList<>(List.of(files.toString(), startDate, endDate, formatString));
 
-        System.out.println();
+        // Таблица 2х4 в таблицу 4х2
+        List<List<String>> table = IntStream.range(0, col1.size())
+            .mapToObj(i -> List.of(col1.get(i), col2.get(i)))
+            .collect(Collectors.toList());
+
+        return visualizer.showTable(headers, table, "Основная статистика");
     }
 }

@@ -32,6 +32,6 @@ public class AnalyzerConfig {
         names = {"--format"},
         description = "markdown | adoc"
     )
-    private String format;
+    private String format = "adoc";
 
 }

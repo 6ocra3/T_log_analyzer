@@ -4,6 +4,7 @@ import backend.academy.analyzer.config.AnalyzerConfig;
 import backend.academy.analyzer.log.NginxLog;
 import backend.academy.analyzer.statistic.metrics.FileMetric;
 import backend.academy.analyzer.statistic.metrics.LogMetric;
+import backend.academy.analyzer.visualizer.Visualizer;
 import lombok.Setter;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -25,6 +26,8 @@ public class StatisticCollector {
     private final List<FileMetric> fileMetrics;
     @Setter
     private AnalyzerConfig config;
+    @Setter
+    private Visualizer visualizer;
 
     public StatisticCollector(List<FileMetric> fileMetrics, List<LogMetric> logMetrics) {
         this.logMetrics = logMetrics;
@@ -82,7 +85,7 @@ public class StatisticCollector {
     }
 
     public void showStatistic() {
-        fileMetrics.forEach(FileMetric::showStatistic);
-        logMetrics.forEach(LogMetric::showStatistic);
+        fileMetrics.forEach(fileMetric -> System.out.println(fileMetric.getStatistic(visualizer)));
+        logMetrics.forEach(logMetric -> System.out.println(logMetric.getStatistic(visualizer)));
     }
 }
