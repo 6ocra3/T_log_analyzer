@@ -4,6 +4,7 @@ import backend.academy.analyzer.log.HttpResponseCode;
 import backend.academy.analyzer.log.NginxLog;
 import backend.academy.analyzer.visualizer.Visualizer;
 import com.google.common.collect.Table;
+import lombok.Getter;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -11,7 +12,8 @@ import java.util.List;
 import java.util.Map;
 
 public class ResponseCodeMetric implements LogMetric {
-    Map<HttpResponseCode, Integer> codesCounter = new HashMap<>();
+    @Getter
+    private Map<HttpResponseCode, Integer> codesCounter = new HashMap<>();
 
     public ResponseCodeMetric(){}
 

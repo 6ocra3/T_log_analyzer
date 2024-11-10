@@ -2,12 +2,14 @@ package backend.academy.analyzer.statistic.metrics;
 
 import backend.academy.analyzer.log.NginxLog;
 import backend.academy.analyzer.visualizer.Visualizer;
+import lombok.Getter;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@Getter
 public class RequestTargetMetric implements LogMetric {
     private static final int TARGET_COUNTS = 5;
     private int totalCount = 0;

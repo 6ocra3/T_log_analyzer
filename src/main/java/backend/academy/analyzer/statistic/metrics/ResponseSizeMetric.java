@@ -2,15 +2,16 @@ package backend.academy.analyzer.statistic.metrics;
 
 import backend.academy.analyzer.log.NginxLog;
 import backend.academy.analyzer.visualizer.Visualizer;
+import lombok.Getter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+@Getter
 public class ResponseSizeMetric implements LogMetric {
-
-    List<Integer> values = new ArrayList<>();
+    private List<Integer> values = new ArrayList<>();
 
     private int getPercentileValue(int percentile) {
         Collections.sort(values);
