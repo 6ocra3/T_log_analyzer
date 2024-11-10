@@ -6,10 +6,18 @@ import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import lombok.Builder;
 import lombok.Getter;
 
 @Getter
 public class NginxLog {
+    public static final DateTimeFormatter DATE_FORMATTER =
+        DateTimeFormatter.ofPattern("dd/MMM/yyyy:HH:mm:ss Z", Locale.US);
+
+    private static final Pattern LOG_PATTERN = Pattern.compile(
+        "^(\\S+) - - \\[(.+?)] \"(\\S+) (.+?) (\\S+)\" (\\d{3}) (\\d+) \"(.*?)\" \"(.*?)\"$"
+    );
+
     private final String ipAddress;
     private final LocalDateTime dateTime;
     private final HttpMethod httpMethod;
@@ -19,13 +27,6 @@ public class NginxLog {
     private final int responseSize;
     private final String referrer;
     private final String userAgent;
-
-    private static final Pattern LOG_PATTERN = Pattern.compile(
-        "^(\\S+) - - \\[(.+?)] \"(\\S+) (.+?) (\\S+)\" (\\d{3}) (\\d+) \"(.*?)\" \"(.*?)\"$"
-    );
-
-    private static final DateTimeFormatter DATE_FORMATTER =
-        DateTimeFormatter.ofPattern("dd/MMM/yyyy:HH:mm:ss Z", Locale.US);
 
     public NginxLog(String logLine) {
         Matcher matcher = LOG_PATTERN.matcher(logLine);

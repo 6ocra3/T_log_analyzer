@@ -13,9 +13,10 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+@Getter
 public class CommonMetric implements FileMetric {
-    List<String> files = new ArrayList<>();
-    @Setter @Getter
+    private final List<String> files = new ArrayList<>();
+    @Setter
     private AnalyzerConfig config;
 
     @Override

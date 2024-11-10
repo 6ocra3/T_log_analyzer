@@ -65,16 +65,16 @@ public class Analyzer {
     }
 
     private void useLocalFiles(String inputFile) {
-        List<String> filesForRead = getPathFromPattern(inputFile);
+        Path cur = Paths.get("").toAbsolutePath();
+        List<String> filesForRead = getPathFromPattern(cur, inputFile);
         filesForRead.forEach(collector::collectFromFile);
     }
 
-    private List<String> getPathFromPattern(String pattern) {
-        Path cur = Paths.get("").toAbsolutePath();
+    private List<String> getPathFromPattern(Path rootDir, String pattern) {
         String formatedPattern = "glob:" + pattern;
         List<String> files = new ArrayList<>();
         try {
-            files = FilesPatternMatcher.searchWithPattern(cur, formatedPattern);
+            files = FilesPatternMatcher.searchWithPattern(rootDir, formatedPattern);
         } catch (IOException e) {
             e.printStackTrace();
         }
