@@ -5,31 +5,42 @@ import backend.academy.analyzer.log.NginxLog;
 import backend.academy.analyzer.statistic.metrics.FileMetric;
 import backend.academy.analyzer.statistic.metrics.LogMetric;
 import backend.academy.analyzer.visualizer.Visualizer;
-import lombok.Setter;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Stream;
+import org.jline.terminal.Terminal;
+import org.jline.terminal.TerminalBuilder;
+import lombok.Getter;
+import lombok.Setter;
 
 public class StatisticCollector {
 
     private final List<LogMetric> logMetrics;
     private final List<FileMetric> fileMetrics;
+    @Getter
+    protected Terminal terminal;
     @Setter
     private AnalyzerConfig config;
     @Setter
     private Visualizer visualizer;
 
     public StatisticCollector(List<FileMetric> fileMetrics, List<LogMetric> logMetrics) {
+        try {
+            terminal = TerminalBuilder.builder()
+                .system(true)
+                .build();
+        } catch (Exception e) {
+            terminal.writer().println("Failed to initialize terminal or line reader" + e);
+        }
         this.logMetrics = logMetrics;
         this.fileMetrics = fileMetrics;
     }
@@ -85,7 +96,7 @@ public class StatisticCollector {
     }
 
     public void showStatistic() {
-        fileMetrics.forEach(fileMetric -> System.out.println(fileMetric.getStatistic(visualizer)));
-        logMetrics.forEach(logMetric -> System.out.println(logMetric.getStatistic(visualizer)));
+        fileMetrics.forEach(fileMetric -> terminal.writer().println(fileMetric.getStatistic(visualizer)));
+        logMetrics.forEach(logMetric -> terminal.writer().println(logMetric.getStatistic(visualizer)));
     }
 }

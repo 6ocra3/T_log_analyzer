@@ -228,6 +228,13 @@
             <artifactId>rest-assured</artifactId>
             <scope>test</scope>
         </dependency>
+
+        <dependency>
+            <groupId>org.jline</groupId>
+            <artifactId>jline</artifactId>
+            <version>3.26.3</version>
+        </dependency>
+
     </dependencies>
 
     <dependencyManagement>
@@ -435,6 +442,8 @@
                         <configuration>
                             <artifactSet>
                                 <includes>
+                                    <include>org.apache.commons:commons-lang3</include> <!-- Включаем библиотеку Commons Lang -->
+                                    <include>org.jline:jline</include>
                                     <include>org.jcommander:jcommander</include>
                                 </includes>
                             </artifactSet>

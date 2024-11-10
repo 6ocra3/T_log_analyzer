@@ -31,12 +31,7 @@ public class Analyzer {
         commonMetric.config(config);
         collector.config(config);
         useFormat();
-        String pattern = "https://raw.githubusercontent.com/elastic/examples/master/Common%20Data%20Formats/nginx_logs/nginx_logs";
-        if(isUrl(pattern)){
-            useRemoteFiles(pattern);
-        } else{
-            useLocalFiles(pattern);
-        }
+        usePath();
         collector.showStatistic();
     }
 
@@ -50,7 +45,17 @@ public class Analyzer {
         }
     }
 
+    private void usePath(){
+        String pattern = config.path();
+        if(isUrl(pattern)){
+            useRemoteFiles(pattern);
+        } else{
+            useLocalFiles(pattern);
+        }
+    }
+
     private void useRemoteFiles(String inputFile){
+        System.setProperty("https.protocols", "TLSv1.2");
         try{
             collector.collectFromHttp(inputFile);
         } catch (IOException e){
