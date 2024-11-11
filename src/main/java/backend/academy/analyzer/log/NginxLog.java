@@ -6,10 +6,10 @@ import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import lombok.Builder;
 import lombok.Getter;
 
 @Getter
+@SuppressWarnings("MagicNumber")
 public class NginxLog {
     public static final DateTimeFormatter DATE_FORMATTER =
         DateTimeFormatter.ofPattern("dd/MMM/yyyy:HH:mm:ss Z", Locale.US);

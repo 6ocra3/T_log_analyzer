@@ -1,17 +1,14 @@
 package backend.academy.analyzer.statistic.metrics;
 
 import backend.academy.analyzer.config.AnalyzerConfig;
-import backend.academy.analyzer.log.NginxLog;
 import backend.academy.analyzer.visualizer.Visualizer;
-import lombok.Getter;
-import lombok.Setter;
 import java.nio.file.Path;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+import lombok.Getter;
+import lombok.Setter;
 
 @Getter
 public class CommonMetric implements FileMetric {
@@ -27,7 +24,7 @@ public class CommonMetric implements FileMetric {
     @Override
     public String getStatistic(Visualizer visualizer) {
         List<String> headers = List.of("Параметр", "Значения");
-        List<String> col1 = List.of("Файлы","Начальная дата","Конечная дата","Формат");
+        List<String> col1 = List.of("Файлы", "Начальная дата", "Конечная дата", "Формат");
         String startDate = config.searchPeriodFrom() == null ? "-" : config.searchPeriodFrom().toString();
         String endDate = config.searchPeriodTo() == null ? "-" : config.searchPeriodTo().toString();
         String formatString = config.format() == null ? "-" : config.format();

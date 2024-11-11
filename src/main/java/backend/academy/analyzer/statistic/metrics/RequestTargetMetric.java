@@ -2,27 +2,25 @@ package backend.academy.analyzer.statistic.metrics;
 
 import backend.academy.analyzer.log.NginxLog;
 import backend.academy.analyzer.visualizer.Visualizer;
-import lombok.Getter;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import lombok.Getter;
 
 @Getter
 public class RequestTargetMetric implements LogMetric {
     private static final int TARGET_COUNTS = 5;
-    private int totalCount = 0;
     private final Map<String, Integer> targetCounter = new HashMap<>();
-
+    private int totalCount = 0;
 
     @Override
-
     public void processLog(NginxLog log) {
         totalCount++;
         String[] pathElements = log.requestPath().split("/");
-        String pathTarget = pathElements[pathElements.length-1];
-        targetCounter.put(pathTarget, targetCounter.getOrDefault(pathTarget, 0)+1);
+        String pathTarget = pathElements[pathElements.length - 1];
+        targetCounter.put(pathTarget, targetCounter.getOrDefault(pathTarget, 0) + 1);
     }
 
     @Override
@@ -34,7 +32,7 @@ public class RequestTargetMetric implements LogMetric {
         List<List<String>> table = new ArrayList<>();
         table.add(List.of("Всего запросов", String.valueOf(totalCount)));
 
-        for(int i = 0; i<Math.min(TARGET_COUNTS, sortedCounts.size());i++){
+        for (int i = 0; i < Math.min(TARGET_COUNTS, sortedCounts.size()); i++) {
             Map.Entry<String, Integer> entry = sortedCounts.get(i);
             table.add(List.of(entry.getKey(), String.valueOf(entry.getValue())));
         }

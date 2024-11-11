@@ -5,5 +5,6 @@ import backend.academy.analyzer.visualizer.Visualizer;
 
 public interface LogMetric {
     void processLog(NginxLog log);
+
     String getStatistic(Visualizer visualizer);
 }

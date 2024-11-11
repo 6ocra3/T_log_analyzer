@@ -5,7 +5,6 @@ import backend.academy.analyzer.log.NginxLog;
 import backend.academy.analyzer.statistic.metrics.FileMetric;
 import backend.academy.analyzer.statistic.metrics.LogMetric;
 import backend.academy.analyzer.visualizer.Visualizer;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -17,10 +16,10 @@ import java.nio.file.Path;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Stream;
-import org.jline.terminal.Terminal;
-import org.jline.terminal.TerminalBuilder;
 import lombok.Getter;
 import lombok.Setter;
+import org.jline.terminal.Terminal;
+import org.jline.terminal.TerminalBuilder;
 
 public class StatisticCollector {
 
@@ -67,7 +66,7 @@ public class StatisticCollector {
         try {
             logs = Files.lines(path);
         } catch (IOException e) {
-            e.printStackTrace();
+            terminal.writer().println(e);
         }
         processLogStream(logs);
     }
@@ -92,7 +91,7 @@ public class StatisticCollector {
 
     private boolean filterByConfigDates(NginxLog log) {
         return (config.searchPeriodFrom() == null || log.dateTime().isAfter(config.searchPeriodFrom())
-        && (config.searchPeriodTo() == null || log.dateTime().isBefore(config.searchPeriodTo())));
+            && (config.searchPeriodTo() == null || log.dateTime().isBefore(config.searchPeriodTo())));
     }
 
     public void showStatistic() {
