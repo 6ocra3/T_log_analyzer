@@ -70,7 +70,7 @@ public class Analyzer {
         filesForRead.forEach(collector::collectFromFile);
     }
 
-    private List<String> getPathFromPattern(Path rootDir, String pattern) {
+    public static List<String> getPathFromPattern(Path rootDir, String pattern) {
         String formatedPattern = "glob:" + pattern;
         List<String> files = new ArrayList<>();
         try {
