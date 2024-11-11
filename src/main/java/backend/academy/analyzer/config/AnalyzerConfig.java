@@ -2,9 +2,9 @@ package backend.academy.analyzer.config;
 
 import backend.academy.analyzer.converters.LocalDateTimeConverter;
 import com.beust.jcommander.Parameter;
+import java.time.LocalDateTime;
 import lombok.Getter;
 import lombok.Setter;
-import java.time.LocalDateTime;
 
 @Getter
 @Setter

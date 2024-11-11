@@ -442,15 +442,34 @@
                         <configuration>
                             <artifactSet>
                                 <includes>
-                                    <include>org.apache.commons:commons-lang3</include> <!-- Включаем библиотеку Commons Lang -->
-                                    <include>org.jline:jline</include>
+                                    <!-- Включите зависимости логгера, такие как SLF4J и Log4j -->
                                     <include>org.jcommander:jcommander</include>
+                                    <include>org.jline:jline</include>
+                                    <include>org.slf4j:slf4j-api</include>
+                                    <include>org.apache.logging.log4j:log4j-core</include>
+                                    <include>org.apache.logging.log4j:log4j-slf4j2-impl</include>
+                                    <include>org.apache.logging.log4j:log4j-api</include>
                                 </includes>
                             </artifactSet>
                             <outputFile>${project.build.directory}/${project.artifactId}-${project.version}-all.jar</outputFile>
                             <transformers>
+                                <!-- Устанавливаем главный класс для запуска -->
                                 <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
                                     <mainClass>backend.academy.Main</mainClass> <!-- Ваш главный класс -->
+                                </transformer>
+                                <!-- Объединяем ресурсы для корректной работы Log4j -->
+                                <transformer implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer"/>
+                                <transformer implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
+                                    <resource>META-INF/spring.handlers</resource>
+                                </transformer>
+                                <transformer implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
+                                    <resource>META-INF/spring.schemas</resource>
+                                </transformer>
+                                <transformer implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
+                                    <resource>META-INF/log4j-provider.properties</resource>
+                                </transformer>
+                                <transformer implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
+                                    <resource>META-INF/log4j2.component.properties</resource>
                                 </transformer>
                             </transformers>
                         </configuration>

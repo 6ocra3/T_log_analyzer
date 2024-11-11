@@ -15,16 +15,20 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class Analyzer {
 
-    CommonMetric commonMetric = new CommonMetric();
-    List<LogMetric> logMetrics = List.of(new ResponseSizeMetric(), new RequestTargetMetric(), new ResponseCodeMetric());
-    List<FileMetric> fileMetrics = List.of(commonMetric);
-    StatisticCollector collector = new StatisticCollector(fileMetrics, logMetrics);
-    AnalyzerConfig config;
+    private static final Logger LOGGER = LoggerFactory.getLogger(Analyzer.class);
+    private final CommonMetric commonMetric = new CommonMetric();
+    private final List<LogMetric> logMetrics = List.of(new ResponseSizeMetric(),
+        new RequestTargetMetric(), new ResponseCodeMetric());
+    private final List<FileMetric> fileMetrics = List.of(commonMetric);
+    private final StatisticCollector collector = new StatisticCollector(fileMetrics, logMetrics);
+    private final AnalyzerConfig config;
+
 
     public Analyzer(AnalyzerConfig config) {
         this.config = config;
@@ -35,8 +39,8 @@ public class Analyzer {
         collector.showStatistic();
     }
 
-    private void useFormat(){
-        switch (config.format()){
+    private void useFormat() {
+        switch (config.format()) {
             case "markdown":
                 collector.visualizer(new MDVisualizer());
                 break;
@@ -45,21 +49,21 @@ public class Analyzer {
         }
     }
 
-    private void usePath(){
+    private void usePath() {
         String pattern = config.path();
-        if(isUrl(pattern)){
+        if (isUrl(pattern)) {
             useRemoteFiles(pattern);
-        } else{
+        } else {
             useLocalFiles(pattern);
         }
     }
 
-    private void useRemoteFiles(String inputFile){
+    private void useRemoteFiles(String inputFile) {
         System.setProperty("https.protocols", "TLSv1.2");
-        try{
+        try {
             collector.collectFromHttp(inputFile);
-        } catch (IOException e){
-            e.printStackTrace();
+        } catch (IOException e) {
+            LOGGER.error(String.valueOf(e));
         }
 
     }
@@ -76,7 +80,7 @@ public class Analyzer {
         try {
             files = FilesPatternMatcher.searchWithPattern(rootDir, formatedPattern);
         } catch (IOException e) {
-            e.printStackTrace();
+            LOGGER.error(String.valueOf(e));
         }
         return files;
     }
