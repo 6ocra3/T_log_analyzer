@@ -3,9 +3,11 @@ package backend.academy.analyzer.config;
 import backend.academy.analyzer.converters.LocalDateTimeConverter;
 import com.beust.jcommander.Parameter;
 import lombok.Getter;
+import lombok.Setter;
 import java.time.LocalDateTime;
 
 @Getter
+@Setter
 public class AnalyzerConfig {
     @Parameter(
         names = {"--path"},
