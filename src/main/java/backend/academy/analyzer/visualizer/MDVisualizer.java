@@ -17,16 +17,16 @@ public class MDVisualizer implements Visualizer {
         table.append(showTitle(tableTitle));
         table.append(getTableLine(headers));
         table.append(getTableLine(options));
-        for(List<String> row : values){
+        for (List<String> row : values) {
             table.append(getTableLine(row));
         }
         return table.toString();
     }
 
-    private String getTableLine(List<String> line){
+    private String getTableLine(List<String> line) {
         StringBuilder sb = new StringBuilder();
         sb.append("|");
-        for(String l : line){
+        for (String l : line) {
             sb.append(l).append("|");
         }
         sb.append("\n");

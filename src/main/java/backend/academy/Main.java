@@ -4,18 +4,18 @@ import backend.academy.analyzer.Analyzer;
 import backend.academy.analyzer.config.AnalyzerConfig;
 import com.beust.jcommander.JCommander;
 import lombok.experimental.UtilityClass;
-import java.util.Arrays;
 
 @UtilityClass
 public class Main {
     public static void main(String[] args) {
-        String[] mockArgs = {"--path", "https://raw.githubusercontent.com/elastic/examples/master/Common%20Data%20Formats/nginx_logs/nginx_logs",
-        "--from", "2015-05-21", "--format", "markdown"};
+//        String[] mockArgs = {"--path",
+//            "https://raw.githubusercontent.com/elastic/examples/master/Common%20Data%20Formats/nginx_logs/nginx_logs",
+//            "--from", "2015-05-21", "--format", "markdown"};
         AnalyzerConfig config = new AnalyzerConfig();
         JCommander jargs = JCommander.newBuilder()
             .addObject(config)
             .build();
-        jargs.parse(mockArgs);
+        jargs.parse(args);
         Analyzer analyzer = new Analyzer(config);
     }
 }

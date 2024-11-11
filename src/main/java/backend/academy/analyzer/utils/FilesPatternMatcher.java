@@ -12,7 +12,9 @@ import java.nio.file.SimpleFileVisitor;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.ArrayList;
 import java.util.List;
+import lombok.experimental.UtilityClass;
 
+@UtilityClass
 public class FilesPatternMatcher {
     public static List<String> searchWithPattern(Path rootDir, String pattern) throws IOException {
         List<String> matchesList = new ArrayList<>();
