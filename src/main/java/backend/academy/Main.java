@@ -16,7 +16,7 @@ public class Main {
         JCommander jargs = JCommander.newBuilder()
             .addObject(config)
             .build();
-        jargs.parse(mockArgs);
+        jargs.parse(args);
         Analyzer analyzer = new Analyzer(config);
     }
 }
