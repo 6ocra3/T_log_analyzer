@@ -91,8 +91,8 @@ public class StatisticCollector {
         logMetrics.forEach(m -> m.processLog(log));
     }
 
-    private boolean filterByValue(String log){
-        if(config.filterValue() == null){
+    private boolean filterByValue(String log) {
+        if (config.filterValue() == null) {
             return true;
         }
         return log.toLowerCase().contains(config.filterValue());
