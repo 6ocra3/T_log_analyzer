@@ -72,7 +72,9 @@ public class StatisticCollector {
     }
 
     public void processLogStream(Stream<String> logs) {
-        logs.map(line -> {
+        logs
+            .filter(this::filterByValue)
+            .map(line -> {
                 try {
                     return new NginxLog(line);
                 } catch (IllegalArgumentException e) {
@@ -89,6 +91,13 @@ public class StatisticCollector {
         logMetrics.forEach(m -> m.processLog(log));
     }
 
+    private boolean filterByValue(String log){
+        if(config.filterValue() == null){
+            return true;
+        }
+        return log.toLowerCase().contains(config.filterValue());
+    }
+
     private boolean filterByConfigDates(NginxLog log) {
         return (config.searchPeriodFrom() == null || log.dateTime().isAfter(config.searchPeriodFrom())
             && (config.searchPeriodTo() == null || log.dateTime().isBefore(config.searchPeriodTo())));
@@ -97,5 +106,6 @@ public class StatisticCollector {
     public void showStatistic() {
         fileMetrics.forEach(fileMetric -> terminal.writer().println(fileMetric.getStatistic(visualizer)));
         logMetrics.forEach(logMetric -> terminal.writer().println(logMetric.getStatistic(visualizer)));
+        terminal.flush();
     }
 }

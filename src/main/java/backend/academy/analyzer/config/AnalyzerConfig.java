@@ -36,4 +36,10 @@ public class AnalyzerConfig {
     )
     private String format = "adoc";
 
+    @Parameter(
+        names = {"--filter-value"},
+        description = "value to filter logs"
+    )
+    private String filterValue;
+
 }
