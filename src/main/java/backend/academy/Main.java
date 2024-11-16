@@ -11,12 +11,12 @@ public class Main {
         String[] mockArgs = {"--path",
 //            "https://raw.githubusercontent.com/elastic/examples/master/Common%20Data%20Formats/nginx_logs/nginx_logs",
             "**/logs*",
-            "--from", "2015-05-21", "--format", "markdown", "--filter-value", "hello"};
+            "--from", "2015-05-21", "--format", "markdown"};
         AnalyzerConfig config = new AnalyzerConfig();
         JCommander jargs = JCommander.newBuilder()
             .addObject(config)
             .build();
-        jargs.parse(args);
+        jargs.parse(mockArgs);
         Analyzer analyzer = new Analyzer(config);
     }
 }

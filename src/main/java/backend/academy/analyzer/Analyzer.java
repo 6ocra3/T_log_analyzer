@@ -8,6 +8,7 @@ import backend.academy.analyzer.statistic.metrics.LogMetric;
 import backend.academy.analyzer.statistic.metrics.RequestTargetMetric;
 import backend.academy.analyzer.statistic.metrics.ResponseCodeMetric;
 import backend.academy.analyzer.statistic.metrics.ResponseSizeMetric;
+import backend.academy.analyzer.statistic.metrics.TimeMetric;
 import backend.academy.analyzer.utils.FilesPatternMatcher;
 import backend.academy.analyzer.visualizer.AdocVisualizer;
 import backend.academy.analyzer.visualizer.MDVisualizer;
@@ -24,7 +25,7 @@ public class Analyzer {
     private static final Logger LOGGER = LoggerFactory.getLogger(Analyzer.class);
     private final CommonMetric commonMetric = new CommonMetric();
     private final List<LogMetric> logMetrics = List.of(new ResponseSizeMetric(),
-        new RequestTargetMetric(), new ResponseCodeMetric());
+        new RequestTargetMetric(), new ResponseCodeMetric(), new TimeMetric());
     private final List<FileMetric> fileMetrics = List.of(commonMetric);
     private final StatisticCollector collector = new StatisticCollector(fileMetrics, logMetrics);
     private final AnalyzerConfig config;

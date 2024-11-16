@@ -24,11 +24,12 @@ public class CommonMetric implements FileMetric {
     @Override
     public String getStatistic(Visualizer visualizer) {
         List<String> headers = List.of("Параметр", "Значения");
-        List<String> col1 = List.of("Файлы", "Начальная дата", "Конечная дата", "Формат");
+        List<String> col1 = List.of("Файлы", "Начальная дата", "Конечная дата", "Формат", "Значение фильтрации");
         String startDate = config.searchPeriodFrom() == null ? "-" : config.searchPeriodFrom().toString();
         String endDate = config.searchPeriodTo() == null ? "-" : config.searchPeriodTo().toString();
         String formatString = config.format() == null ? "-" : config.format();
-        List<String> col2 = new ArrayList<>(List.of(files.toString(), startDate, endDate, formatString));
+        String filterValue = config.filterValue() == null ? "-" : config.filterValue();
+        List<String> col2 = new ArrayList<>(List.of(files.toString(), startDate, endDate, formatString, filterValue));
 
         // Таблица 2х4 в таблицу 4х2
         List<List<String>> table = IntStream.range(0, col1.size())
