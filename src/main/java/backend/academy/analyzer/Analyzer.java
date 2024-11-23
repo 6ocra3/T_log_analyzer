@@ -16,12 +16,11 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 public class Analyzer {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(Analyzer.class);
     private final CommonMetric commonMetric = new CommonMetric();
     private final List<LogMetric> logMetrics = List.of(new ResponseSizeMetric(),
         new RequestTargetMetric(), new ResponseCodeMetric());
@@ -63,7 +62,7 @@ public class Analyzer {
         try {
             collector.collectFromHttp(inputFile);
         } catch (IOException e) {
-            LOGGER.error(String.valueOf(e));
+            log.error(String.valueOf(e));
         }
 
     }
@@ -80,7 +79,7 @@ public class Analyzer {
         try {
             files = FilesPatternMatcher.searchWithPattern(rootDir, formatedPattern);
         } catch (IOException e) {
-            LOGGER.error(String.valueOf(e));
+            log.error(String.valueOf(e));
         }
         return files;
     }

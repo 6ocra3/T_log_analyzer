@@ -1,6 +1,5 @@
 package backend.academy.analyzer.statistic.metrics;
 
-import backend.academy.analyzer.log.HttpResponseCode;
 import backend.academy.analyzer.log.NginxLog;
 import backend.academy.analyzer.visualizer.Visualizer;
 import java.util.ArrayList;
@@ -9,10 +8,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import lombok.Getter;
+import org.springframework.http.HttpStatus;
 
 @Getter
 public class ResponseCodeMetric implements LogMetric {
-    private final Map<HttpResponseCode, Integer> codesCounter = new HashMap<>();
+    private final Map<HttpStatus, Integer> codesCounter = new HashMap<>();
 
     @Override
     public void processLog(NginxLog log) {
@@ -21,14 +21,14 @@ public class ResponseCodeMetric implements LogMetric {
 
     @Override
     public String getStatistic(Visualizer visualizer) {
-        List<Map.Entry<HttpResponseCode, Integer>> sortedCountedCodes = new ArrayList<>(codesCounter.entrySet());
+        List<Map.Entry<HttpStatus, Integer>> sortedCountedCodes = new ArrayList<>(codesCounter.entrySet());
         sortedCountedCodes.sort(Map.Entry.comparingByValue(Comparator.reverseOrder()));
 
         List<String> headers = List.of("Код", "Расшифровка", "Количество");
         List<List<String>> table = new ArrayList<>();
 
-        for (Map.Entry<HttpResponseCode, Integer> code : sortedCountedCodes) {
-            table.add(List.of(String.valueOf(code.getKey().code()), code.getKey().codeName(),
+        for (Map.Entry<HttpStatus, Integer> code : sortedCountedCodes) {
+            table.add(List.of(String.valueOf(code.getKey().value()), code.getKey().getReasonPhrase(),
                 String.valueOf(code.getValue())));
         }
 

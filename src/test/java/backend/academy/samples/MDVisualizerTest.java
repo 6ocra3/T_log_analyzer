@@ -7,7 +7,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class MDVisualizerTest {
-    private final static String TABLE_EXAMPLE = """
+    private static final String TABLE_EXAMPLE = """
         ## t1
         |h1|h2|
         |:----:|:----:|

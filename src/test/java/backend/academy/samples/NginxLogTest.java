@@ -1,12 +1,12 @@
 package backend.academy.samples;
 
 import backend.academy.analyzer.log.HttpMethod;
-import backend.academy.analyzer.log.HttpResponseCode;
 import backend.academy.analyzer.log.NginxLog;
 import org.junit.jupiter.api.Test;
 import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import org.springframework.http.HttpStatus;
 
 public class NginxLogTest {
 
@@ -27,7 +27,7 @@ public class NginxLogTest {
         assertEquals(HttpMethod.GET, log.httpMethod());
         assertEquals("/Ameliorated_complexity_Synergistic.css", log.requestPath());
         assertEquals("HTTP/1.1", log.httpVersion());
-        assertEquals(HttpResponseCode.fromInt(200), log.statusCode());
+        assertEquals(HttpStatus.resolve(200), log.statusCode());
         assertEquals(2098, log.responseSize());
         assertEquals("-", log.referrer());
         assertEquals("Opera/10.44 (X11; Linux x86_64; en-US) Presto/2.12.213 Version/12.00", log.userAgent());

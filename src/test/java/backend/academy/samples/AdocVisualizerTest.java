@@ -8,7 +8,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class AdocVisualizerTest {
 
-    private final static String TABLE_EXAMPLE = """
+    private static final String TABLE_EXAMPLE = """
         == t1
         [cols="^,^", options="header"]
         |===
